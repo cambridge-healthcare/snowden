@@ -8,26 +8,25 @@ module Snowden
     end
 
     def decrypt(data)
-      c = symmetric_cipher
-      c.decrypt
-      c.key = key
-      c.iv  = iv
-
-      c.update(data) + c.final
+      cipher(:decrypt, data)
     end
 
     def encrypt(data)
-      c = symmetric_cipher
-      c.encrypt
-      c.key = key
-      c.iv  = iv
-
-      c.update(data) + c.final
+      cipher(:encrypt, data)
     end
 
     private
 
     attr_reader :key, :iv
+
+    def cipher(mode, data)
+      c = symmetric_cipher
+      c.public_send(mode)
+      c.key = key
+      c.iv  = iv
+
+      c.update(data) + c.final
+    end
 
     def symmetric_cipher
       OpenSSL::Cipher::Cipher.new("AES-256-CBC")
