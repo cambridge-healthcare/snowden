@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["samphippen@googlemail.com", "stephen@howareyou.com"]
   spec.description   = %q{Fuzzy encrypted indexes in ruby}
   spec.summary       = %q{Fuzzy encrypted indexes in ruby}
-  spec.homepage      = "http://github.com/cambridgehealthcare/snowden"
+  spec.homepage      = "http://github.com/cambridge-healthcare/snowden"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
