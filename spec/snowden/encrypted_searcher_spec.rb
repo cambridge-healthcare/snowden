@@ -32,10 +32,10 @@ module Snowden
       end
 
       context "with two matching encrypted values" do
-        let(:encrypted_value1)                  { double(:encrypted_value1) }
-        let(:decrypted_value1)                  { double(:decrypted_value1) }
-        let(:encrypted_value2)                  { double(:encrypted_value2) }
-        let(:decrypted_value2)                  { double(:decrypted_value2) }
+        let(:encrypted_value1) { double(:encrypted_value1) }
+        let(:decrypted_value1) { double(:decrypted_value1) }
+        let(:encrypted_value2) { double(:encrypted_value2) }
+        let(:decrypted_value2) { double(:decrypted_value2) }
 
         it "returns both decrypted values" do
           allow(wildcard_generator).to receive(:each_wildcard).and_yield(wildcard_search_string)
