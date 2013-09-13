@@ -23,8 +23,7 @@ class WildcardGenerator
   end
 
   def edit_distance_1_wildcards(string)
-    wildcards = []
-    (string.length + 1).times do |i|
+    wildcards = (string.length + 1).times.each_with_object([]) do |i,wildcards|
       prefix = string[0...i]
       suffix = string[i...string.length]
       wildcards << "#{prefix}*#{suffix}"
