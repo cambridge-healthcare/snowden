@@ -19,19 +19,15 @@ class WildcardGenerator
   attr_reader :edit_distance
 
   def add_wildcard_layer(list_of_strings)
-    list_of_strings.map {|s| edit_distance_1_wildcards(s) }.flatten
+    list_of_strings.map {|s| base_wildcards(s) }.flatten
   end
 
-  def edit_distance_1_wildcards(string)
-    wildcards = (string.length + 1).times.each_with_object([]) do |i,wildcards|
+  def base_wildcards(string)
+    (string.length + 1).times.each_with_object([string]) { |i, wildcards|
       prefix = string[0...i]
       suffix = string[i...string.length]
       wildcards << "#{prefix}*#{suffix}"
       wildcards << "#{prefix[0...prefix.length-1]}*#{suffix}"
-    end
-
-    wildcards << string
-
-    wildcards.uniq
+    }.uniq
   end
 end
