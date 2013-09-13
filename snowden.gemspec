@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Snowden::VERSION
   spec.authors       = ["Sam Phippen", "Stephen Best"]
   spec.email         = ["samphippen@googlemail.com", "stephen@howareyou.com"]
-  spec.description   = %q{Shamir's secret sharing, but good}
-  spec.summary       = %q{A working secret sharing implementation in Ruby.}
-  spec.homepage      = ""
+  spec.description   = %q{Fuzzy encrypted indexes in ruby}
+  spec.summary       = %q{Fuzzy encrypted indexes in ruby}
+  spec.homepage      = "http://github.com/cambridgehealthcare/snowden"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
