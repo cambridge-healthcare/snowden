@@ -10,8 +10,7 @@ module Snowden
       build = []
 
       wildcard_generator.each_wildcard(search_string) do |wildcard|
-        encrypted_key = crypto.encrypt(wildcard)
-        encrypted_values = index.search(encrypted_key)
+        encrypted_values = encrypt_and_search(wildcard)
         build += encrypted_values.map {|v| crypto.decrypt(v) }
       end
 
@@ -21,5 +20,10 @@ module Snowden
     private
 
     attr_reader :wildcard_generator, :crypto, :index
+
+    def encrypt_and_search(string)
+      encrypted_key    = crypto.encrypt(string)
+      encrypted_values = index.search(encrypted_key)
+    end
   end
 end

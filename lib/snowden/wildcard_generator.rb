@@ -27,8 +27,8 @@ class WildcardGenerator
     (string.length + 1).times do |i|
       prefix = string[0...i]
       suffix = string[i...string.length]
-      wildcards << prefix + "*" + suffix
-      wildcards << prefix[0...prefix.length-1] + "*" + suffix
+      wildcards << "#{prefix}*#{suffix}"
+      wildcards << "#{prefix[0...prefix.length-1]}*#{suffix}"
     end
 
     wildcards << string
