@@ -16,7 +16,8 @@ describe Snowden do
 
     it "does the crypto correctly" do
       subject.store("encrypt me", "please")
-      expect(index.search(encrypt_helper("encrypt me"))).to eq([encrypt_helper("please")])
+      encrypted_value = index.search(encrypt_helper("encrypt me")).first
+      expect(decrypt_helper(encrypted_value)[Snowden::PADDING_BYTE_SIZE..-1]).to eq("please")
     end
 
   end
@@ -36,7 +37,12 @@ describe Snowden do
       expect(searcher.search("gerha")).to eq(["pony"])
     end
   end
+
   def encrypt_helper(value)
     Snowden::Crypto.new(:key => key, :iv => iv).encrypt(value)
+  end
+
+  def decrypt_helper(value)
+    Snowden::Crypto.new(:key => key, :iv => iv).decrypt(value)
   end
 end

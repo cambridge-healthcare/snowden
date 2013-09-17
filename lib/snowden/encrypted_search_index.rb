@@ -8,7 +8,7 @@ module Snowden
 
     def store(key, value)
       wildcard_generator.each_wildcard(key) do |wildcard|
-        backend.save(encrypt(wildcard), encrypt(value))
+        backend.save(encrypt(wildcard), encrypt(OpenSSL::Random.random_bytes(PADDING_BYTE_SIZE) + value))
       end
     end
 

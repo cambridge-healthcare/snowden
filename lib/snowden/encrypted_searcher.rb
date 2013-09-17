@@ -11,7 +11,7 @@ module Snowden
 
       wildcard_generator.each_wildcard(search_string) do |wildcard|
         encrypted_values = encrypt_and_search(wildcard)
-        build += encrypted_values.map {|v| crypto.decrypt(v) }
+        build += encrypted_values.map {|v| crypto.decrypt(v)[32..-1] }
       end
 
       build.uniq

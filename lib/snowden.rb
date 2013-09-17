@@ -7,6 +7,7 @@ require "snowden/encrypted_searcher"
 module Snowden
 
   DEFAULT_EDIT_DISTANCE = 3
+  PADDING_BYTE_SIZE = 32
 
   @edit_distance = DEFAULT_EDIT_DISTANCE
 
