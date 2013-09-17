@@ -19,7 +19,6 @@ describe Snowden do
       encrypted_value = index.search(encrypt_helper("encrypt me")).first
       expect(decrypt_helper(encrypted_value)[Snowden::PADDING_BYTE_SIZE..-1]).to eq("please")
     end
-
   end
 
   describe ".new_encrypted_searcher" do
