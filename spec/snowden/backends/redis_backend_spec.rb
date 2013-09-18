@@ -28,5 +28,5 @@ module Snowden
     after do
       redis_connection.stop
     end
- end
+  end
 end

@@ -10,8 +10,8 @@ module Snowden
       build = []
 
       wildcard_generator.each_wildcard(search_string) do |wildcard|
-        encrypted_values = encrypt_and_search(wildcard)
-        build += encrypted_values.map {|v| crypto.decrypt(v)[32..-1] }
+        encrypted_values = encrypted_values_for_key(wildcard)
+        build += encrypted_values.map {|v| crypto.padded_decrypt(v) }
       end
 
       build.uniq
@@ -19,11 +19,11 @@ module Snowden
 
     private
 
-    attr_reader :wildcard_generator, :crypto, :index
+    attr_reader :wildcard_generator, :crypto, :index, :padding_size
 
-    def encrypt_and_search(string)
-      encrypted_key    = crypto.encrypt(string)
-      encrypted_values = index.search(encrypted_key)
+    def encrypted_values_for_key(key)
+      encrypted_key = crypto.encrypt(key)
+      index.search(encrypted_key)
     end
   end
 end

@@ -19,7 +19,7 @@ module Snowden
     @edit_distance = arg
   end
 
-  def self.new_encrypted_index(key, iv, backend)
+  def self.new_encrypted_index(key, iv, backend=default_backend)
     EncryptedSearchIndex.new(
       :crypto             => crypto_for(key, iv),
       :backend            => backend,
@@ -43,5 +43,9 @@ module Snowden
 
   def self.crypto_for(key, iv)
     Crypto.new(:key => key, :iv => iv)
+  end
+
+  def self.default_backend
+    Snowden::Backends::HashBackend.new
   end
 end

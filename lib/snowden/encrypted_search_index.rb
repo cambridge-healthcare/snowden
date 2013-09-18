@@ -18,14 +18,14 @@ module Snowden
 
     private
 
-    attr_reader :backend, :crypto, :wildcard_generator
+    attr_reader :backend, :crypto, :wildcard_generator, :bytestream_generator
 
     def encrypt_key(key)
       crypto.encrypt(key)
     end
 
     def encrypt_value(value)
-      crypto.encrypt(OpenSSL::Random.random_bytes(PADDING_BYTE_SIZE) + value)
+      crypto.padded_encrypt(value)
     end
   end
 end

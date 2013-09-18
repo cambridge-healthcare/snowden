@@ -7,7 +7,7 @@ module Snowden
 
     let(:wildcards_fixture) { [
       "a", "*a", "a*", "*", "**a", "*a*", "**", "a**"
-    ] }
+    ].sort }
 
     describe "#each_wildcard" do
       it "yields to the passed block" do
@@ -20,7 +20,7 @@ module Snowden
       end
 
       it "gives back some wildcards" do
-        expect(wildcard_generator.each_wildcard("a").to_a).to eq(wildcards_fixture)
+        expect(wildcard_generator.each_wildcard("a").to_a.sort).to eq(wildcards_fixture)
       end
     end
   end

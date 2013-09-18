@@ -3,8 +3,9 @@ require "openssl"
 module Snowden
   class Crypto
     def initialize(args)
-      @key = args.fetch(:key)
-      @iv  = args.fetch(:iv)
+      @key         = args.fetch(:key)
+      @iv          = args.fetch(:iv)
+      @cipher_spec = args.fetch(:cipher_spec, default_cipher_spec)
     end
 
     def decrypt(data)
@@ -15,9 +16,17 @@ module Snowden
       cipher(:encrypt, data)
     end
 
+    def padded_encrypt(data)
+      encrypt(OpenSSL::Random.random_bytes(PADDING_BYTE_SIZE) + data)
+    end
+
+    def padded_decrypt(data)
+      decrypt(data)[PADDING_BYTE_SIZE..-1]
+    end
+
     private
 
-    attr_reader :key, :iv
+    attr_reader :key, :iv, :cipher_spec
 
     def cipher(mode, data)
       c = symmetric_cipher
@@ -29,8 +38,11 @@ module Snowden
     end
 
     def symmetric_cipher
-      OpenSSL::Cipher::Cipher.new("AES-256-CBC")
+      OpenSSL::Cipher::Cipher.new(cipher_spec)
     end
 
+    def default_cipher_spec
+      "AES-256-CBC"
+    end
   end
 end
