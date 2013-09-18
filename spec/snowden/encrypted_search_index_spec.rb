@@ -23,7 +23,7 @@ module Snowden
 
     describe "#save" do
       it "stores the wildcard and the encrypted value" do
-        allow(wildcard_generator).to receive(:each_wildcard).with(key).and_yield(wildcard_key)
+        allow(wildcard_generator).to receive(:wildcards).with(key).and_return([wildcard_key].to_enum)
         allow(crypto).to receive(:encrypt).with(wildcard_key).and_return(encrypted_wildcard_key)
         allow(crypto).to receive(:padded_encrypt).with(value).and_return(encrypted_value)
 

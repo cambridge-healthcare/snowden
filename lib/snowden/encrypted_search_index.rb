@@ -7,7 +7,7 @@ module Snowden
     end
 
     def store(key, value)
-      wildcard_generator.each_wildcard(key) do |wildcard|
+      wildcard_generator.wildcards(key).each do |wildcard|
         backend.save(encrypt_key(wildcard), encrypt_value(value))
       end
     end

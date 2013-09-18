@@ -11,6 +11,7 @@ module Snowden
       def save(key, value)
         @hash[namespaced_key(key)] ||= []
         @hash[namespaced_key(key)] << value
+        nil
       end
 
       def find(key)

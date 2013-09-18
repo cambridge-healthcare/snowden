@@ -4,7 +4,7 @@ module Snowden
       @edit_distance = args.fetch(:edit_distance)
     end
 
-    def each_wildcard(string, &block)
+    def wildcards(string)
       wildcards = [string]
       edit_distance.times do
         wildcards = add_wildcard_layer(wildcards)
@@ -12,7 +12,7 @@ module Snowden
 
       wildcards = wildcards.uniq
 
-      wildcards.each(&block)
+      wildcards.to_enum
     end
 
     private

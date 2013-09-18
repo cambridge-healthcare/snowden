@@ -9,6 +9,7 @@ module Snowden
 
     def save(key, value)
       redis.lpush(namespaced_key(key), value)
+      nil
     end
 
     def find(key)

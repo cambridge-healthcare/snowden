@@ -36,6 +36,27 @@ searcher.search("bac")
 # => ["bits"]
 ```
 
+
+## Backends and namespacing
+
+Snowden supports multiple backends for storing your encrypted search indices,
+two backends are provided as part of the gem:
+
+* An in memory hash backend `Snowden::Backends::HashBackend`
+* A redis backend `Snowden::Backends::RedisBackend`
+
+Both support taking a namespace, which allows you to store multiple different
+encrypted indices in the same store. The redis backend also takes a
+`Redis` object from the [redis](https://github.com/redis/redis-rb) to serve
+as its connection to the redis server.
+
+An example of the use of the redis backend is:
+
+```ruby
+```
+
+
+
 ## Contributing
 
 1. Fork it

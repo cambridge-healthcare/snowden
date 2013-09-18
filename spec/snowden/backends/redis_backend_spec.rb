@@ -5,12 +5,11 @@ require "redis_gun"
 module Snowden
   describe RedisBackend do
     subject(:backend) { RedisBackend.new("namespace", redis_connection_helper) }
-    let(:redis_connection) { RedisGun::RedisServer.new.tap {|x| x.running?} }
+    let(:redis_connection) { RedisGun::RedisServer.new.tap {|x| x.running? } }
 
     describe "#save" do
-      it "saves the key and value in redis" do
-        backend.save("key", "value")
-        expect(redis_connection_helper.lrange("namespace:key", 0, -1)).to eq(["value"])
+      it "returns nil" do
+        expect(backend.save("key", "value")).to be nil
       end
     end
 
@@ -18,6 +17,13 @@ module Snowden
       it "finds the value stored under the key in redis" do
         redis_connection_helper.lpush("namespace:bacon", "troll")
         expect(backend.find("bacon")).to eq(["troll"])
+      end
+    end
+
+    describe "saving and finding" do
+      it "can find values it has saved" do
+        backend.save("key", "value")
+        expect(backend.find("key")).to eq(["value"])
       end
     end
 

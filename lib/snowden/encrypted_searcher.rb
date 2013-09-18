@@ -7,14 +7,10 @@ module Snowden
     end
 
     def search(search_string)
-      build = []
-
-      wildcard_generator.each_wildcard(search_string) do |wildcard|
+      wildcard_generator.wildcards(search_string).flat_map { |wildcard|
         encrypted_values = encrypted_values_for_key(wildcard)
-        build += encrypted_values.map {|v| crypto.padded_decrypt(v) }
-      end
-
-      build.uniq
+        encrypted_values.map {|v| crypto.padded_decrypt(v) }
+      }.uniq
     end
 
     private

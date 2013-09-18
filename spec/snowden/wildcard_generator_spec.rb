@@ -12,7 +12,7 @@ module Snowden
     describe "#each_wildcard" do
       it "yields to the passed block" do
         called = false
-        wildcard_generator.each_wildcard("a") do
+        wildcard_generator.wildcards("a").each do
           called = true
         end
 
@@ -20,7 +20,7 @@ module Snowden
       end
 
       it "gives back some wildcards" do
-        expect(wildcard_generator.each_wildcard("a").to_a.sort).to eq(wildcards_fixture)
+        expect(wildcard_generator.wildcards("a").to_a.sort).to eq(wildcards_fixture)
       end
     end
   end
