@@ -25,7 +25,7 @@ module Snowden
     end
 
     def encrypt_value(value)
-      encrypt(OpenSSL::Random.random_bytes(PADDING_BYTE_SIZE) + value)
+      crypto.encrypt(OpenSSL::Random.random_bytes(PADDING_BYTE_SIZE) + value)
     end
   end
 end
