@@ -1,6 +1,6 @@
 require "redis"
 
-module Snowden
+module Snowden::Backends
   class RedisBackend
     def initialize(namespace="", redis=Redis.new(:driver => :hiredis))
       @namespace = namespace
