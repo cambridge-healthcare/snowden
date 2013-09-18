@@ -1,11 +1,11 @@
 require "snowden/backends/hash_backend"
+require "snowden/backends/redis_backend"
 require "snowden/crypto"
 require "snowden/wildcard_generator"
 require "snowden/encrypted_search_index"
 require "snowden/encrypted_searcher"
 
 module Snowden
-
   DEFAULT_EDIT_DISTANCE = 3
   PADDING_BYTE_SIZE = 32
 
