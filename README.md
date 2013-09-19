@@ -160,8 +160,6 @@ A Snowden backend is a ruby class that:
 The two backends built into Snowden (in `lib/snowden/backends`) serve as
 reference implementations of Snowden backends.
 
-##How it works
-
 ## Contributing
 
 1. Fork it
