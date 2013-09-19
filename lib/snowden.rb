@@ -28,7 +28,7 @@ module Snowden
   # @return [Snowden::EncryptedSearchIndex]
   #   a snowden index to store values in.
   #
-  def self.new_encrypted_index(key, iv, backend=configuration.backend)
+  def self.new_encrypted_index(key, iv, backend)
     EncryptedSearchIndex.new(
       :crypto             => crypto_for(key, iv),
       :backend            => backend,

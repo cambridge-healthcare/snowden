@@ -65,7 +65,7 @@ require 'snowden'
 aes_key = "a"*(256/8)
 aes_iv  = "b"*(128/8)
 
-index    = Snowden.new_encrypted_index(aes_key, aes_iv)
+index    = Snowden.new_encrypted_index(aes_key, aes_iv, Snowden::Backends::HashBackend.new)
 searcher = Snowden.new_encrypted_searcher(aes_key, aes_iv, index)
 
 index.store("bacon", "bits")
@@ -106,24 +106,7 @@ index = Snowden.new_encrypted_index(aes_key, aes_iv, redis_backend)
 ## Configuration
 
 Snowden has a core configuration object that allows you to change various
-aspects of the gem's operation. Examples include:
-
-
-###Changing the default backend used by indices
-```ruby
-require "redis"
-
-redis = Redis.new(:driver => :hiredis)
-redis_backend = Snowden::Backends::RedisBackend.new("index_namespace", redis)
-
-Snowden.configuration.backend = redis_backend
-
-#Sometime later:
-aes_key = OpenSSL::Random.random_bytes(256/8)
-aes_iv = OpenSSL::Random.random_bytes(128/8)
-
-index = Snowden.new_encrypted_index(aes_key, aes_iv)
-```
+aspects of the gem's operation.
 
 ###Changing the cipher used by Snowden
 
@@ -131,7 +114,7 @@ index = Snowden.new_encrypted_index(aes_key, aes_iv)
 Snowden.configuration.cipher_spec = "RC4"
 
 #Sometime later:
-index = Snowden.new_encrypted_index(key, iv)
+index = Snowden.new_encrypted_index(key, iv, Snowden::Backends::HashBackend.new)
 ```
 
 For a complete list of possible ciphers you can use this snippet in `irb`

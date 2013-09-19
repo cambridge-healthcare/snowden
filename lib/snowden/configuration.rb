@@ -15,20 +15,14 @@ module Snowden
   #                                  Change at your own risk.
   #                                  Never set to lower than 2 blocks if you're
   #                                  using a block cipher.
-  #
-  #@attr backend The default snowden storage backend.
-  #              Defaults to an instance of Snowden::Backends::HashBackend
   class Configuration
     attr_accessor :edit_distance, :cipher_spec, :padding_byte_size, :backend
-
-
 
     #Sets up the configuration object
     def initialize
       @edit_distance     = 3
       @cipher_spec       = "AES-256-CBC"
       @padding_byte_size = 32
-      @backend           = Snowden::Backends::HashBackend.new
     end
   end
 end

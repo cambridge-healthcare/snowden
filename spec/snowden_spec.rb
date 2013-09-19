@@ -6,7 +6,12 @@ describe Snowden do
   let(:iv)      { "b"*(128/8) }
 
   describe ".new_encrypted_index" do
-    subject(:index) { Snowden.new_encrypted_index(key, iv) }
+    subject(:index) { Snowden.new_encrypted_index(
+        key,
+        iv,
+        Snowden::Backends::HashBackend.new({})
+      )
+    }
 
     it "gives back an index" do
       expect(index).to be_a_kind_of Snowden::EncryptedSearchIndex
@@ -23,7 +28,12 @@ describe Snowden do
   end
 
   describe ".new_encrypted_searcher" do
-    let(:index)        { Snowden.new_encrypted_index(key, iv) }
+    let(:index) { Snowden.new_encrypted_index(
+        key,
+        iv,
+        Snowden::Backends::HashBackend.new({})
+      )
+    }
     subject(:searcher) { Snowden.new_encrypted_searcher(key, iv, index) }
 
     it "gives back a searcher" do
