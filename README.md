@@ -1,7 +1,46 @@
 # Snowden
 
+![Snowden's here](http://i.qkme.me/3uyzco.jpg)
+
 Snowden is a gem for managing encrypted search indices. It can do fuzzy search
 on text indices and supports pluggable backends.
+
+**Snowden currently sits at version `0.9.0`, we want some feedback before
+making the API concrete. That said, we're pretty happy with this and using it
+in production. Please send issues/pull requests if you have problems.**
+
+The basic idea behind Snowden is captured in
+[this paper](http://www.cs.cityu.edu.hk/~congwang/papers/INFOCOM10-search.pdf).
+
+The search algorithm works by encrypting "wildcard strings" over the key in
+the index that you're trying to encrypt. When you search you construct a wildcard
+set over your searchterm. You encrypt the search wildcard set, and this
+will produce a matching encrypted value in the stored wildcard set if any
+of the wildcards overlap.
+
+An example of this can be seen below:
+
+```
+Store: "bacon"
+
+Wildcard set (size 1):
+
+["bacon", "*bacon", "b*acon", "ba*con", "bac*on", "baco*n", "bacon*", "*acon", "b*con", "ba*on", "bac*n", "baco*"]
+
+Search: "bac":
+
+Wildcard set (size 1):
+
+["baco", "*baco", "b*aco", "ba*co", "bac*o", "baco*", "*aco", "b*co", "ba*o", "bac*"]
+
+Matches:
+
+["baco*"]
+```
+
+The encryption we use for keys encrypts the same string as the same value
+so this match can happen without the values being decrypted.
+
 
 ## Installation
 
@@ -27,7 +66,7 @@ require 'snowden'
 aes_key = "a"*(256/8)
 aes_iv  = "b"*(128/8)
 
-index    = Snowden.new_encrypted_index(aes_key, aes_iv, Snowden::Backends::HashBackend.new)
+index    = Snowden.new_encrypted_index(aes_key, aes_iv)
 searcher = Snowden.new_encrypted_searcher(aes_key, aes_iv, index)
 
 index.store("bacon", "bits")
@@ -53,9 +92,75 @@ as its connection to the redis server.
 An example of the use of the redis backend is:
 
 ```ruby
+require "redis"
+
+redis = Redis.new(:driver => :hiredis)
+redis_backend = Snowden::Backends::RedisBackend.new("index_namespace", redis)
+
+aes_key = OpenSSL::Random.random_bytes(256/8)
+aes_iv = OpenSSL::Random.random_bytes(128/8)
+
+index = Snowden.new_encrypted_index(aes_key, aes_iv, redis_backend)
+#...
 ```
 
 
+## Configuration
+
+Snowden has a core configuration object that allows you to change various
+aspects of the gem's operation. Examples include:
+
+
+###Changing the default backend used by indices
+```ruby
+require "redis"
+
+redis = Redis.new(:driver => :hiredis)
+redis_backend = Snowden::Backends::RedisBackend.new("index_namespace", redis)
+
+Snowden.configuration.backend = redis_backend
+
+#Sometime later:
+aes_key = OpenSSL::Random.random_bytes(256/8)
+aes_iv = OpenSSL::Random.random_bytes(128/8)
+
+index = Snowden.new_encrypted_index(aes_key, aes_iv)
+```
+
+###Changing the cipher used by Snowden
+
+```ruby
+Snowden.configuration.cipher_spec = "RC4"
+
+#Sometime later:
+index = Snowden.new_encrypted_index(key, iv)
+```
+
+For a complete list of possible ciphers you can use this snippet in `irb`
+
+```ruby
+OpenSSL::Cipher.ciphers.each do |c| p c end; nil
+```
+
+The default cipher in Snowden is `AES-256-CBC` which we believe to be secure
+enough for our purposes, your mileage may vary.
+
+32 bytes of random padding are added to the front of ciphertexts in Snowden to
+prevent the same value stored under many different index keys being
+diffentiable when encrypted under the same key and IV.
+
+##Implementing your own backends
+
+A Snowden backend is a ruby class that:
+
+* Can be constructed with a namespace
+* Responds to `#save(key, value)` which returns nil
+* Responds to `#find(key)` which returns all the values saved under that key
+
+The two backends built into Snowden (in `lib/snowden/backends`) serve as
+reference implementations of Snowden backends.
+
+##How it works
 
 ## Contributing
 

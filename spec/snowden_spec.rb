@@ -6,17 +6,19 @@ describe Snowden do
   let(:iv)      { "b"*(128/8) }
 
   describe ".new_encrypted_index" do
-
     subject(:index) { Snowden.new_encrypted_index(key, iv) }
 
     it "gives back an index" do
       expect(index).to be_a_kind_of Snowden::EncryptedSearchIndex
     end
 
-    it "does the crypto correctly" do
+    it "builds an index that does crypto" do
       subject.store("encrypt me", "please")
+
       encrypted_value = index.search(encrypt_helper("encrypt me")).first
-      expect(decrypt_helper(encrypted_value)[Snowden::PADDING_BYTE_SIZE..-1]).to eq("please")
+      decrypted_value = padded_decrypt_helper(encrypted_value)
+
+      expect(decrypted_value).to eq("please")
     end
   end
 
@@ -28,7 +30,7 @@ describe Snowden do
       expect(subject).to be_a_kind_of Snowden::EncryptedSearcher
     end
 
-    it "finds values in a real index" do
+    it "builds a searcher that can find values in the index" do
       index.store("sam", "12345")
       index.store("gerhard", "pony")
 
@@ -37,10 +39,10 @@ describe Snowden do
   end
 
   def encrypt_helper(value)
-    Snowden::Crypto.new(:key => key, :iv => iv).encrypt(value)
+    Snowden.crypto_for(key, iv).encrypt(value)
   end
 
-  def decrypt_helper(value)
-    Snowden::Crypto.new(:key => key, :iv => iv).decrypt(value)
+  def padded_decrypt_helper(value)
+    Snowden.crypto_for(key, iv).padded_decrypt(value)
   end
 end

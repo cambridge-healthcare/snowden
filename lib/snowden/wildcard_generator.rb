@@ -4,6 +4,7 @@ module Snowden
       @edit_distance = args.fetch(:edit_distance)
     end
 
+    # @api private
     def wildcards(string)
       wildcards = [string]
       edit_distance.times do

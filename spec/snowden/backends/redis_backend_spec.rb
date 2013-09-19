@@ -2,7 +2,7 @@ require "spec_helper"
 require "snowden"
 require "redis_gun"
 
-module Snowden
+module Snowden::Backends
   describe RedisBackend do
     subject(:backend) { RedisBackend.new("namespace", redis_connection_helper) }
     let(:redis_connection) { RedisGun::RedisServer.new.tap {|x| x.running? } }
