@@ -141,6 +141,9 @@ reference implementations of Snowden backends.
 
 ## Contributing
 
+Please note: you need to have a redis server running on the default port to
+run the specs, this is for integration testing the `RedisBackend` class.
+
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
