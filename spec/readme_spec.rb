@@ -3,6 +3,11 @@ require "redis"
 require 'snowden'
 
 describe "the examples from the readme" do
+  before do
+    Redis.new(:driver => :hiredis).flushdb
+    Snowden.configuration.backend = Snowden::Backends::HashBackend.new("",{})
+  end
+
   it "works for the example in the usage section" do
     # 256 bit aes with 128 bit block
     aes_key = "a"*(256/8)
