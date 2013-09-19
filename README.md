@@ -14,7 +14,7 @@ The basic idea behind Snowden is captured in
 
 The search algorithm works by encrypting "wildcard strings" over the key in
 the index that you're trying to encrypt. When you search you construct a wildcard
-set over your searchterm. You encrypt the search wildcard set, and this
+set over your search term. You encrypt the search wildcard set, and this
 will produce a matching encrypted value in the stored wildcard set if any
 of the wildcards overlap.
 
@@ -27,7 +27,7 @@ Wildcard set (size 1):
 
 ["bacon", "*bacon", "b*acon", "ba*con", "bac*on", "baco*n", "bacon*", "*acon", "b*con", "ba*on", "bac*n", "baco*"]
 
-Search: "bac":
+Search: "baco":
 
 Wildcard set (size 1):
 
