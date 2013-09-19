@@ -58,8 +58,7 @@ Or install it yourself as:
 
 ## Usage
 
-
-```
+```ruby
 require 'snowden'
 
 # 256 bit aes with 128 bit block
@@ -74,7 +73,6 @@ index.store("bacon", "bits")
 searcher.search("bac")
 # => ["bits"]
 ```
-
 
 ## Backends and namespacing
 
