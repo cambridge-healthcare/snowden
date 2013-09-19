@@ -1,7 +1,5 @@
 # Snowden
 
-![Snowden's here](http://i.qkme.me/3uyzco.jpg)
-
 Snowden is a gem for managing encrypted search indices. It can do fuzzy search
 on text indices and supports pluggable backends.
 
