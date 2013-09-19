@@ -86,7 +86,7 @@ two backends are provided as part of the gem:
 
 Both support taking a namespace, which allows you to store multiple different
 encrypted indices in the same store. The redis backend also takes a
-`Redis` object from the [redis](https://github.com/redis/redis-rb) to serve
+`Redis` object from the [redis](https://github.com/redis/redis-rb) gem to serve
 as its connection to the redis server.
 
 An example of the use of the redis backend is:
