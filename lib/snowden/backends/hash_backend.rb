@@ -4,7 +4,7 @@ module Snowden
     SNOWDEN_BACKEND_HASH = {}
 
     class HashBackend
-      #Creates a new redis backend
+      #Creates a new hash backend
       #
       # @param namespace [String] the string this backend is namespaced under.
       # @param hash     [Hash] a Hash object instance to save values in.
